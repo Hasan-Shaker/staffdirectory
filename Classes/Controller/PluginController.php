@@ -179,7 +179,30 @@ class PluginController extends ActionController
 
     public function directoryAction(): ResponseInterface
     {
-        // TODO
+        if (!empty($this->settings['organizations'])) {
+            $uids = GeneralUtility::intExplode(',', $this->settings['organizations'], true);
+            $organizations = [];
+            foreach ($uids as $uid) {
+                $organization = $this->organizationRepository->findByUid($uid);
+                if ($organization !== null) {
+                    $organizations[] = $organization;
+                }
+            }
+        } else {
+            $organizations = $this->organizationRepository->findAll();
+        }
+
+        foreach ($organizations as $organization) {
+            // Tag the page cache so that FAL signal operations may be listened to in
+            // order to flush corresponding page cache
+            $this->addCacheTagsForOrganization($organization);
+        }
+
+        $this->view->assignMultiple([
+            'organizations' => $organizations,
+            // Raw data for the plugin
+            'plugin' => $this->getContentObjectData(),
+        ]);
 
         return new HtmlResponse(
             $this->view->render()

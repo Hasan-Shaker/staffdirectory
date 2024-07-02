@@ -6,6 +6,9 @@
             <trans-unit id="label_empty_organization_list">
                 <source>No organizations</source>
             </trans-unit>
+            <trans-unit id="label_empty_organization_member_list">
+                <source>No persons</source>
+            </trans-unit>
             <trans-unit id="label_empty_directory_list">
                 <source>No persons</source>
             </trans-unit>

@@ -1,12 +1,33 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en"
       xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
       data-namespace-typo3-fluid="true">
+    <f:layout name="Default"/>
 
-<f:layout name="Default"/>
-
-<f:section name="Main">
-    DIRECTORY goes here...
-    <f:debug>{_all}</f:debug>
-</f:section>
-
+    <f:section name="Main">
+        <f:if condition="{organizations}">
+            <f:then>
+                <div class="row">
+                    <f:for as="organization" each="{organizations}">
+                        <f:if condition="{organization.members}">
+                            <f:then>
+                                <f:for each="{organization.members}" as="member">
+                                    <f:render partial="Member/Item" arguments="{plugin: plugin,member: member}"/>
+                                </f:for>
+                            </f:then>
+                            <f:else>
+                                <div class="alert alert-warning" role="alert">
+                                    <f:translate key="label_empty_organization_member_list"/>
+                                </div>
+                            </f:else>
+                        </f:if>
+                    </f:for>
+                </div>
+            </f:then>
+            <f:else>
+                <div class="alert alert-warning" role="alert">
+                    <f:translate key="label_empty_organization_list"/>
+                </div>
+            </f:else>
+        </f:if>
+    </f:section>
 </html>
