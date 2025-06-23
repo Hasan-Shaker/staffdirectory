@@ -142,6 +142,10 @@ class MembershipViewHelper extends AbstractViewHelper
                     ];
                 }
             } elseif ($flexform['settings.displayMode']['vDEF'] === 'PERSONS') {
+                if (!isset($flexform['settings.persons'])) {
+                    continue;
+                }
+
                 $selectedPersons = GeneralUtility::intExplode(',', $flexform['settings.persons']['vDEF'], true);
                 if (in_array($person->getUid(), $selectedPersons, true)) {
                     $data[$row['pid']] = [
