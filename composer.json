@@ -21,9 +21,9 @@
   "license": "GPL-2.0-or-later",
   "require": {
     "php": ">=8.1.0 <=8.5.99",
-    "typo3/cms-core": "^12 || ^13",
+    "typo3/cms-core": "^12 || ^13 || ^14",
     "sjbr/static-info-tables": "^12.4 || ^13.4",
-    "giggsey/libphonenumber-for-php": "^8.13"
+    "giggsey/libphonenumber-for-php": "^9.0"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "~3.95.10",
@@ -40,7 +40,8 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-main": "2.1.x-dev"
+      "dev-main": "2.1.x-dev",
+      "dev-features/TYPO3v14": "2.2.x-dev"
     },
     "typo3/cms": {
       "extension-key": "staffdirectory",
