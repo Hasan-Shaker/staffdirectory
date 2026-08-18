@@ -1,7 +1,7 @@
 {
   "name": "causal/staffdirectory",
   "type": "typo3-cms-extension",
-  "description": "Directory of groups of persons and their department membership with RDFa support",
+  "description": "Staff Directory - Directory of groups of persons and their department membership with RDFa support",
   "keywords": [
     "TYPO3 CMS"
   ],
