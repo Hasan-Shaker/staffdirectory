@@ -1,4 +1,5 @@
 <?php
+
 defined('TYPO3') || die();
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin([
@@ -55,11 +56,11 @@ $GLOBALS['TCA']['tt_content']['types']['staffdirectory_plugin']['columnsOverride
                     [
                         'label' => 'LLL:EXT:staffdirectory/Resources/Private/Language/locallang_db.xlf:tt_content.layout.1',
                         'value' >= 1,
-                    ]
+                    ],
                 ]
                 : [
                     ['LLL:EXT:staffdirectory/Resources/Private/Language/locallang_db.xlf:tt_content.layout.0', 0],
-                    ['LLL:EXT:staffdirectory/Resources/Private/Language/locallang_db.xlf:tt_content.layout.1', 1]
+                    ['LLL:EXT:staffdirectory/Resources/Private/Language/locallang_db.xlf:tt_content.layout.1', 1],
                 ],
         ],
     ],

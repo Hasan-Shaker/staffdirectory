@@ -35,9 +35,7 @@ class PluginController extends ActionController
 {
     private const ORGANIZATION_RECURSION_LIMIT = 10;
 
-    public function __construct(protected OrganizationRepository $organizationRepository, protected MemberRepository $memberRepository, protected PersonRepository $personRepository)
-    {
-    }
+    public function __construct(protected OrganizationRepository $organizationRepository, protected MemberRepository $memberRepository, protected PersonRepository $personRepository) {}
 
     public function dispatchAction(): ResponseInterface
     {

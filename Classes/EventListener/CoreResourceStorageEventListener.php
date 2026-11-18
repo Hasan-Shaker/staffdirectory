@@ -27,9 +27,7 @@ class CoreResourceStorageEventListener
     /**
      * CoreResourceStorageEventListener constructor.
      */
-    public function __construct(protected CacheManager $pageCache)
-    {
-    }
+    public function __construct(protected CacheManager $pageCache) {}
 
     /**
      * A file has been added as a *replacement* of an existing one.

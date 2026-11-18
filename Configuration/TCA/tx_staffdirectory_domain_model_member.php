@@ -1,4 +1,5 @@
 <?php
+
 $typo3Version = (new \TYPO3\CMS\Core\Information\Typo3Version())->getMajorVersion();
 $tca = [
     'ctrl' => [
@@ -26,11 +27,11 @@ $tca = [
             'showitem' => '
                     organization, feuser_id, position_function,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
-                    hidden, starttime, endtime'
+                    hidden, starttime, endtime',
         ],
     ],
     'palettes' => [
-        '1' => ['showitem' => '']
+        '1' => ['showitem' => ''],
     ],
     'columns' => [
         'hidden' => [
@@ -82,7 +83,7 @@ $tca = [
                         'maxItemsInResultList' => 20,
                     ],
                 ],
-            ]
+            ],
         ],
         'position_function' => [
             'exclude' => false,
@@ -92,14 +93,14 @@ $tca = [
                 'size' => 30,
                 'max' => 255,
                 'eval' => 'trim',
-            ]
+            ],
         ],
         'sorting' => [
             'config' => [
-                'type' => 'passthrough'
-            ]
+                'type' => 'passthrough',
+            ],
         ],
-    ]
+    ],
 ];
 
 if ($typo3Version >= 12) {

@@ -1,4 +1,5 @@
 <?php
+
 $typo3Version = (new \TYPO3\CMS\Core\Information\Typo3Version())->getMajorVersion();
 $tca = [
     'ctrl' => [
@@ -35,11 +36,11 @@ $tca = [
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:categories,
                     categories,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
-                    hidden, starttime, endtime'
+                    hidden, starttime, endtime',
         ],
     ],
     'palettes' => [
-        '1' => ['showitem' => '']
+        '1' => ['showitem' => ''],
     ],
     'columns' => [
         'sys_language_uid' => [
@@ -63,8 +64,8 @@ $tca = [
         ],
         'l10n_diffsource' => [
             'config' => [
-                'type' => 'passthrough'
-            ]
+                'type' => 'passthrough',
+            ],
         ],
         'hidden' => [
             'exclude' => false,
@@ -76,8 +77,8 @@ $tca = [
         ],
         'categories' => [
             'config' => [
-                'type' => 'category'
-            ]
+                'type' => 'category',
+            ],
         ],
         'long_name' => [
             'exclude' => false,
@@ -88,7 +89,7 @@ $tca = [
                 'max' => '255',
                 'eval' => $typo3Version >= 12 ? 'trim' : 'required,trim',
                 'required' => true,
-            ]
+            ],
         ],
         'short_name' => [
             'exclude' => false,
@@ -99,7 +100,7 @@ $tca = [
                 'max' => '50',
                 'eval' => $typo3Version >= 12 ? 'trim' : 'required,trim',
                 'required' => true,
-            ]
+            ],
         ],
         'path_segment' => [
             'exclude' => false,
@@ -113,8 +114,8 @@ $tca = [
                 ],
                 'fallbackCharacter' => '-',
                 'eval' => 'unique',
-                'default' => ''
-            ]
+                'default' => '',
+            ],
         ],
         'description' => [
             'exclude' => false,
@@ -142,7 +143,7 @@ $tca = [
                     'useSortable' => 1,
                     'newRecordLinkPosition' => 'both',
                 ],
-            ]
+            ],
         ],
         'parent_organizations' => [
             'exclude' => false,

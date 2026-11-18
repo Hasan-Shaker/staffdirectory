@@ -1,4 +1,5 @@
 <?php
+
 defined('TYPO3') || die();
 
 $typo3Version = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Information\Typo3Version::class)->getMajorVersion();
@@ -12,7 +13,7 @@ $GLOBALS['TCA']['fe_users']['columns']['tx_extbase_type']['config']['items'][] =
     ]
     : [
         'Staffdirectory Member',
-        'tx_staffdirectory'
+        'tx_staffdirectory',
     ];
 
 $GLOBALS['TCA']['fe_users']['columns']['name']['exclude'] = false;
@@ -40,13 +41,13 @@ $GLOBALS['TCA']['fe_users']['palettes'] += [
         'showitem' => '
             title, first_name, last_name,
             --linebreak--,
-            name'
+            name',
     ],
     'sd_contact' => [
         'showitem' => '
             telephone, tx_staffdirectory_mobilephone,
             --linebreak--,
-            email, tx_staffdirectory_email2'
+            email, tx_staffdirectory_email2',
     ],
     'sd_address' => [
         'showitem' => '
@@ -54,13 +55,13 @@ $GLOBALS['TCA']['fe_users']['palettes'] += [
             --linebreak--,
             zip, city,
             --linebreak--,
-            country'
+            country',
     ],
     'gdpr' => [
         'showitem' => '
             tx_staffdirectory_gdpr_date,
             --linebreak--,
-            tx_staffdirectory_gdpr_proof'
+            tx_staffdirectory_gdpr_proof',
     ],
 ];
 
@@ -73,7 +74,7 @@ $tempColumns = [
             'size' => 20,
             'max' => 20,
             'eval' => 'trim',
-        ]
+        ],
     ],
     'tx_staffdirectory_gender' => [
         'exclude' => false,
@@ -81,7 +82,7 @@ $tempColumns = [
         'config' => [
             'type' => 'select',
             'renderType' => 'selectSingle',
-            'items' => $typo3Version >=12
+            'items' => $typo3Version >= 12
                 ? [
                     [
                         'label' => 'LLL:EXT:staffdirectory/Resources/Private/Language/locallang_db.xlf:fe_users.tx_staffdirectory_gender.I.0',
@@ -98,7 +99,7 @@ $tempColumns = [
                 ],
             'size' => 1,
             'maxitems' => 1,
-        ]
+        ],
     ],
     'tx_staffdirectory_email2' => [
         'exclude' => true,
@@ -112,7 +113,7 @@ $tempColumns = [
                 'size' => 20,
                 'max' => 255,
                 'eval' => 'email',
-            ]
+            ],
     ],
     'tx_staffdirectory_gdpr_date' => [
         'exclude' => false,
@@ -149,8 +150,8 @@ $tempColumns = [
             ],
             'fallbackCharacter' => '-',
             'eval' => 'uniqueInSite',
-            'default' => ''
-        ]
+            'default' => '',
+        ],
     ],
 ];
 
@@ -173,7 +174,7 @@ $GLOBALS['TCA']['fe_users']['columns']['country']['config'] = [
     'itemsProcFunc' => \Causal\Staffdirectory\Backend\Tca\Country::class . '->getAll',
     'size' => 1,
     'minitems' => 0,
-    'maxitems' => 1
+    'maxitems' => 1,
 ];
 
 // Configure the field image to support cropping
@@ -186,11 +187,11 @@ $photoCropVariants = [
         'allowedAspectRatios' => [
             '1:1' => [
                 'title' => 'LLL:EXT:core/Resources/Private/Language/locallang_wizards.xlf:imwizard.ratio.1_1',
-                'value' => 1.0
+                'value' => 1.0,
             ],
             'NaN' => [
                 'title' => 'LLL:EXT:core/Resources/Private/Language/locallang_wizards.xlf:imwizard.ratio.free',
-                'value' => 0.0
+                'value' => 0.0,
             ],
         ],
         'selectedRatio' => '1:1',
@@ -200,7 +201,7 @@ $photoCropVariants = [
             'width' => 1.0,
             'height' => 1.0,
         ],
-    ]
+    ],
 ];
 
 if ($typo3Version >= 12) {
@@ -222,30 +223,30 @@ if ($typo3Version >= 12) {
 } else {
     $GLOBALS['TCA']['fe_users']['columns']['image']['config']
         = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
-        'image',
-        [
-            'maxitems' => 1,
-            'minitems' => 0,
-            // Use the imageoverlayPalette instead of the basicoverlayPalette
-            'overrideChildTca' => [
-                'types' => [
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                        'showitem' => '
+            'image',
+            [
+                'maxitems' => 1,
+                'minitems' => 0,
+                // Use the imageoverlayPalette instead of the basicoverlayPalette
+                'overrideChildTca' => [
+                    'types' => [
+                        \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
+                            'showitem' => '
                                     crop,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
+                        ],
                     ],
-                ],
-                'columns' => [
-                    'crop' => [
-                        'config' => [
-                            'cropVariants' => $photoCropVariants,
+                    'columns' => [
+                        'crop' => [
+                            'config' => [
+                                'cropVariants' => $photoCropVariants,
+                            ],
                         ],
                     ],
                 ],
             ],
-        ],
-        'jpg,jpeg,webp'
-    );
+            'jpg,jpeg,webp'
+        );
 }
 
 $GLOBALS['TCA']['fe_users']['ctrl']['label'] = 'last_name';

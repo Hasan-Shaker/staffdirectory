@@ -26,7 +26,7 @@
     "giggsey/libphonenumber-for-php": "^8.13"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "~3.89.2",
+    "friendsofphp/php-cs-fixer": "~3.95.10",
     "phpstan/phpstan": "2.1.32",
     "rector/rector": "2.2.7"
   },
@@ -50,10 +50,10 @@
       "@rector-check"
     ],
     "cs": [
-      "./vendor/bin/php-cs-fixer fix -v --dry-run --config .php-cs-fixer.php"
+      "php-cs-fixer fix -v --dry-run --config .php-cs-fixer.php"
     ],
     "csfix": [
-      "./vendor/bin/php-cs-fixer fix -v --config .php-cs-fixer.php"
+      "php-cs-fixer fix -v --config .php-cs-fixer.php"
     ],
     "rector": [
       "./vendor/bin/rector"

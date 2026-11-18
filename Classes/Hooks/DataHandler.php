@@ -144,11 +144,11 @@ class DataHandler
 
         $state = RecordStateFactory::forName($table)->fromArray($record);
 
-        if (str_contains((string) $fieldConfig['eval'], 'uniqueInSite')) {
+        if (str_contains((string)$fieldConfig['eval'], 'uniqueInSite')) {
             $slug = $slugHelper->buildSlugForUniqueInSite($slug, $state);
         }
 
-        if (str_contains((string) $fieldConfig['eval'], 'uniqueInPid')) {
+        if (str_contains((string)$fieldConfig['eval'], 'uniqueInPid')) {
             $slug = $slugHelper->buildSlugForUniqueInPid($slug, $state);
         }
 

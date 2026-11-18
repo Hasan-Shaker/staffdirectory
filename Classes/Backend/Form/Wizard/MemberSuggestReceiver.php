@@ -35,7 +35,7 @@ class MemberSuggestReceiver extends SuggestWizardDefaultReceiver
     protected function prepareSelectStatement(): void
     {
         $queryBuilder = $this->queryBuilder;
-        $query = trim((string) $this->params['value']);
+        $query = trim((string)$this->params['value']);
 
         if (MathUtility::canBeInterpretedAsInteger($query)) {
             $whereClause = $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter((int)$query, Connection::PARAM_INT));

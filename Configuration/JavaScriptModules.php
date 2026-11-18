@@ -1,4 +1,5 @@
 <?php
+
 return [
     // Unsure about the need for those dependencies at this point:
     'dependencies' => [

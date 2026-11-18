@@ -31,9 +31,7 @@ class MembershipViewHelper extends AbstractViewHelper
 {
     protected $escapeOutput = false;
 
-    public function __construct(protected OrganizationRepository $organizationRepository)
-    {
-    }
+    public function __construct(protected OrganizationRepository $organizationRepository) {}
 
     public function initializeArguments(): void
     {
