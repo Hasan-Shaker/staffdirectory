@@ -44,7 +44,10 @@
     },
     "typo3/cms": {
       "extension-key": "staffdirectory",
-      "version": "2.2.0-dev"
+      "version": "2.2.0-dev",
+      "Package": {
+        "providesPackages": {}
+      }
     }
   },
   "scripts": {
