@@ -82,7 +82,7 @@ class DataHandler
         $this->cleanupPhoneNumbers($record, $fieldArray);
 
         if ($record['tx_extbase_type'] === 'tx_staffdirectory') {
-            $fieldArray['username'] = strtolower(GeneralUtility::makeInstance(CharsetConverter::class)->specCharsToASCII('utf-8', str_replace(' ', '.', $record['name'])));
+            $fieldArray['username'] = strtolower(GeneralUtility::makeInstance(CharsetConverter::class)->utf8_char_mapping(str_replace(' ', '.', (string)$record['name'])));
             if ($operation === 'new') {
                 $fieldArray['password'] = base64_encode(GeneralUtility::makeInstance(Random::class)->generateRandomBytes(30));
             }
