@@ -130,7 +130,7 @@ class PersonsXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
      */
     protected function defineUrl(array $data): array
     {
-        $pageId = $this->config['url']['pageId'] ?? $GLOBALS['TSFE']->id;
+        $pageId = $this->config['url']['pageId'] ?? $this->request->getAttribute('routing')->getPageId();
 
         $additionalParams = [];
         $additionalParams = $this->getUrlFieldParameterMap($additionalParams, $data['data']);
