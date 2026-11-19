@@ -24,7 +24,9 @@ use Causal\Staffdirectory\Domain\Repository\MemberRepository;
 use Causal\Staffdirectory\Domain\Repository\OrganizationRepository;
 use Causal\Staffdirectory\Domain\Repository\PersonRepository;
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Cache\CacheTag;
 use TYPO3\CMS\Core\Http\HtmlResponse;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -316,7 +318,16 @@ class PluginController extends ActionController
             'tx_staffdirectory_person_' . $person->getUid(),
         ];
 
-        $this->getTypoScriptFrontendController()->addCacheTags($cacheTags);
+        if ((new Typo3Version())->getMajorVersion() >= 13) {
+            $this->request
+                ->getAttribute('frontend.cache.collector')
+                ->addCacheTags(...array_map(
+                    static fn(string $tag): CacheTag => new CacheTag($tag),
+                    $cacheTags
+                ));
+        } else {
+            $this->getTypoScriptFrontendController()->addCacheTags($cacheTags);
+        }
     }
 
     /**
