@@ -1,2 +1,0 @@
-@import 'EXT:staffdirectory/Configuration/TSconfig/ContentElements/*.tsconfig'
-@import 'EXT:staffdirectory/Configuration/TSconfig/Page/LinkBrowser/TYPO3v11/*.tsconfig'

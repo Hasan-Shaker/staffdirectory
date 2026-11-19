@@ -40,33 +40,21 @@ defined('TYPO3') || die ();
 
     $typo3Version = GeneralUtility::makeInstance(Typo3Version::class)->getMajorVersion();
 
-    switch ($typo3Version) {
-        case 11:
-            ExtensionManagementUtility::addPageTSConfig('
-                @import \'EXT:staffdirectory/Configuration/TSconfig/__loader_v11.tsconfig\'
-            ');
-            break;
-        case 12:
-            ExtensionManagementUtility::addPageTSConfig('
-                @import \'EXT:staffdirectory/Configuration/TSconfig/__loader_v12.tsconfig\'
-            ');
-            break;
-        default:
-            // As of TYPO3 v13, the TSconfig is loaded automatically from
-            // the extension's Configuration/page.tsconfig file.
+    // As of TYPO3 v13, the TSconfig is loaded automatically from
+    // the extension's Configuration/page.tsconfig file.
+    if ($typo3Version === 12) {
+        ExtensionManagementUtility::addPageTSConfig('
+            @import \'EXT:staffdirectory/Configuration/TSconfig/__loader_v12.tsconfig\'
+        ');
     }
 
     if ($typo3Version >= 13) {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][InlineRecordContainer::class] = [
             'className' => \Causal\Staffdirectory\Xclass\V13\Backend\Form\Container\InlineRecordContainer::class,
         ];
-    } elseif ($typo3Version === 12) {
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][InlineRecordContainer::class] = [
-            'className' => \Causal\Staffdirectory\Xclass\V12\Backend\Form\Container\InlineRecordContainer::class,
-        ];
     } else {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][InlineRecordContainer::class] = [
-            'className' => \Causal\Staffdirectory\Xclass\V11\Backend\Form\Container\InlineRecordContainer::class,
+            'className' => \Causal\Staffdirectory\Xclass\V12\Backend\Form\Container\InlineRecordContainer::class,
         ];
     }
 })('staffdirectory');

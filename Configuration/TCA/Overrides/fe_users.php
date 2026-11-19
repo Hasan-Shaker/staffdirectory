@@ -2,19 +2,12 @@
 
 defined('TYPO3') || die();
 
-$typo3Version = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Information\Typo3Version::class)->getMajorVersion();
-
 // Create a dedicated type of records to ease the management of those fe_users records in the context of this staffs
 
-$GLOBALS['TCA']['fe_users']['columns']['tx_extbase_type']['config']['items'][] = $typo3Version >= 12
-    ? [
-        'label' => 'Staffdirectory Member',
-        'value' => 'tx_staffdirectory',
-    ]
-    : [
-        'Staffdirectory Member',
-        'tx_staffdirectory',
-    ];
+$GLOBALS['TCA']['fe_users']['columns']['tx_extbase_type']['config']['items'][] = [
+    'label' => 'Staffdirectory Member',
+    'value' => 'tx_staffdirectory',
+];
 
 $GLOBALS['TCA']['fe_users']['columns']['name']['exclude'] = false;
 $GLOBALS['TCA']['fe_users']['columns']['name']['config']['readOnly'] = true;
@@ -82,21 +75,16 @@ $tempColumns = [
         'config' => [
             'type' => 'select',
             'renderType' => 'selectSingle',
-            'items' => $typo3Version >= 12
-                ? [
-                    [
-                        'label' => 'LLL:EXT:staffdirectory/Resources/Private/Language/locallang_db.xlf:fe_users.tx_staffdirectory_gender.I.0',
-                        'value' => '0',
-                    ],
-                    [
-                        'label' => 'LLL:EXT:staffdirectory/Resources/Private/Language/locallang_db.xlf:fe_users.tx_staffdirectory_gender.I.1',
-                        'value' => '1',
-                    ],
-                ]
-                : [
-                    ['LLL:EXT:staffdirectory/Resources/Private/Language/locallang_db.xlf:fe_users.tx_staffdirectory_gender.I.0', '0'],
-                    ['LLL:EXT:staffdirectory/Resources/Private/Language/locallang_db.xlf:fe_users.tx_staffdirectory_gender.I.1', '1'],
+            'items' => [
+                [
+                    'label' => 'LLL:EXT:staffdirectory/Resources/Private/Language/locallang_db.xlf:fe_users.tx_staffdirectory_gender.I.0',
+                    'value' => '0',
                 ],
+                [
+                    'label' => 'LLL:EXT:staffdirectory/Resources/Private/Language/locallang_db.xlf:fe_users.tx_staffdirectory_gender.I.1',
+                    'value' => '1',
+                ],
+            ],
             'size' => 1,
             'maxitems' => 1,
         ],
@@ -104,30 +92,17 @@ $tempColumns = [
     'tx_staffdirectory_email2' => [
         'exclude' => true,
         'label' => 'LLL:EXT:staffdirectory/Resources/Private/Language/locallang_db.xlf:fe_users.tx_staffdirectory_email2',
-        'config' => $typo3Version >= 12
-            ? [
-                'type' => 'email',
-            ]
-            : [
-                'type' => 'input',
-                'size' => 20,
-                'max' => 255,
-                'eval' => 'email',
-            ],
+        'config' => [
+            'type' => 'email',
+        ],
     ],
     'tx_staffdirectory_gdpr_date' => [
         'exclude' => false,
         'label' => 'LLL:EXT:staffdirectory/Resources/Private/Language/locallang_db.xlf:fe_users.tx_staffdirectory_gdpr_date',
-        'config' => $typo3Version >= 12
-            ? [
-                'type' => 'datetime',
-                'format' => 'date',
-            ]
-            : [
-                'type' => 'input',
-                'renderType' => 'inputDateTime',
-                'eval' => 'date',
-            ],
+        'config' => [
+            'type' => 'datetime',
+            'format' => 'date',
+        ],
     ],
     'tx_staffdirectory_gdpr_proof' => [
         'exclude' => false,
@@ -161,16 +136,12 @@ $tempColumns = [
 $GLOBALS['TCA']['fe_users']['columns']['country']['config'] = [
     'type' => 'select',
     'renderType' => 'selectSingle',
-    'items' => $typo3Version >= 12
-        ? [
-            [
-                'label' => '',
-                'value' => '',
-            ],
-        ]
-        : [
-            ['', ''],
+    'items' => [
+        [
+            'label' => '',
+            'value' => '',
         ],
+    ],
     'itemsProcFunc' => \Causal\Staffdirectory\Backend\Tca\Country::class . '->getAll',
     'size' => 1,
     'minitems' => 0,
@@ -204,50 +175,21 @@ $photoCropVariants = [
     ],
 ];
 
-if ($typo3Version >= 12) {
-    $GLOBALS['TCA']['fe_users']['columns']['image']['config'] = [
-        'type' => 'file',
-        'allowed' => 'jpeg,jpg,webp',
-        'maxitems' => 1,
-        'minitems' => 0,
-        'overrideChildTca' => [
-            'columns' => [
-                'crop' => [
-                    'config' => [
-                        'cropVariants' => $photoCropVariants,
-                    ],
+$GLOBALS['TCA']['fe_users']['columns']['image']['config'] = [
+    'type' => 'file',
+    'allowed' => 'jpeg,jpg,webp',
+    'maxitems' => 1,
+    'minitems' => 0,
+    'overrideChildTca' => [
+        'columns' => [
+            'crop' => [
+                'config' => [
+                    'cropVariants' => $photoCropVariants,
                 ],
             ],
         ],
-    ];
-} else {
-    $GLOBALS['TCA']['fe_users']['columns']['image']['config']
-        = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
-            'image',
-            [
-                'maxitems' => 1,
-                'minitems' => 0,
-                // Use the imageoverlayPalette instead of the basicoverlayPalette
-                'overrideChildTca' => [
-                    'types' => [
-                        \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                            'showitem' => '
-                                    crop,
-                                --palette--;;filePalette',
-                        ],
-                    ],
-                    'columns' => [
-                        'crop' => [
-                            'config' => [
-                                'cropVariants' => $photoCropVariants,
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            'jpg,jpeg,webp'
-        );
-}
+    ],
+];
 
 $GLOBALS['TCA']['fe_users']['ctrl']['label'] = 'last_name';
 // BEWARE: "title" and GDPR fields are needed for label_userFunc in the context of FlexForm

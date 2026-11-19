@@ -20,18 +20,18 @@
   ],
   "license": "GPL-2.0-or-later",
   "require": {
-    "php": ">=8.1.0 <=8.4.99",
-    "typo3/cms-core": "^11 || ^12 || ^13",
-    "sjbr/static-info-tables": "^11.5 || ^12.4 || ^13.4",
+    "php": ">=8.1.0 <=8.5.99",
+    "typo3/cms-core": "^12 || ^13",
+    "sjbr/static-info-tables": "^12.4 || ^13.4",
     "giggsey/libphonenumber-for-php": "^8.13"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "~3.95.10",
     "phpstan/phpstan": "2.1.32",
     "rector/rector": "2.2.7",
-    "typo3/cms-backend": "^11 || ^12 || ^13",
-    "typo3/cms-extbase": "^11 || ^12 || ^13",
-    "typo3/cms-seo": "^11 || ^12 || ^13"
+    "typo3/cms-backend": "^12 || ^13",
+    "typo3/cms-extbase": "^12 || ^13",
+    "typo3/cms-seo": "^12 || ^13"
   },
   "autoload": {
     "psr-4": {
@@ -43,7 +43,8 @@
       "dev-main": "2.1.x-dev"
     },
     "typo3/cms": {
-      "extension-key": "staffdirectory"
+      "extension-key": "staffdirectory",
+      "version": "2.2.0-dev"
     }
   },
   "scripts": {

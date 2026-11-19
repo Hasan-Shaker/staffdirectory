@@ -18,7 +18,6 @@ declare(strict_types=1);
 namespace Causal\Staffdirectory\Backend\Tca;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Country
@@ -35,8 +34,6 @@ class Country
             $conf = ['items' => []];
         }
 
-        $typo3Version = GeneralUtility::makeInstance(Typo3Version::class)->getMajorVersion();
-
         $items = [];
         $statement = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('static_countries')
@@ -50,14 +47,10 @@ class Country
                 ]
             );
         while (($row = $statement->fetchAssociative()) !== false) {
-            if ($typo3Version >= 12) {
-                $items[] = [
-                    'label' => $row['cn_short_en'],
-                    'value' => $row['cn_iso_2'],
-                ];
-            } else {
-                $items[] = [$row['cn_short_en'], $row['cn_iso_2']];
-            }
+            $items[] = [
+                'label' => $row['cn_short_en'],
+                'value' => $row['cn_iso_2'],
+            ];
         }
 
         $conf['items'] = array_merge($conf['items'], $items);

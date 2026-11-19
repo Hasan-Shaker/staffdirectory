@@ -1,13 +1,11 @@
 <?php
 
-$typo3Version = (new \TYPO3\CMS\Core\Information\Typo3Version())->getMajorVersion();
-$tca = [
+return [
     'ctrl' => [
         'title' => 'LLL:EXT:staffdirectory/Resources/Private/Language/locallang_db.xlf:tx_staffdirectory_domain_model_organization',
         'label' => 'long_name',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'cruser_id' => 'cruser_id',
         'versioningWS' => true,
         'origUid' => 't3_origuid',
         'languageField' => 'sys_language_uid',
@@ -87,7 +85,7 @@ $tca = [
                 'type' => 'input',
                 'size' => '30',
                 'max' => '255',
-                'eval' => $typo3Version >= 12 ? 'trim' : 'required,trim',
+                'eval' => 'trim',
                 'required' => true,
             ],
         ],
@@ -98,7 +96,7 @@ $tca = [
                 'type' => 'input',
                 'size' => '30',
                 'max' => '50',
-                'eval' => $typo3Version >= 12 ? 'trim' : 'required,trim',
+                'eval' => 'trim',
                 'required' => true,
             ],
         ],
@@ -168,9 +166,3 @@ $tca = [
         ],
     ],
 ];
-
-if ($typo3Version >= 12) {
-    unset($tca['ctrl']['cruser_id']);
-}
-
-return $tca;

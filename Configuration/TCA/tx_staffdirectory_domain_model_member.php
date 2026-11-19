@@ -1,7 +1,6 @@
 <?php
 
-$typo3Version = (new \TYPO3\CMS\Core\Information\Typo3Version())->getMajorVersion();
-$tca = [
+return [
     'ctrl' => [
         'title' => 'LLL:EXT:staffdirectory/Resources/Private/Language/locallang_db.xlf:tx_staffdirectory_domain_model_member',
         'label' => 'feuser_id',
@@ -10,7 +9,6 @@ $tca = [
         'hideTable' => true,
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'cruser_id' => 'cruser_id',
         'versioningWS' => true,
         'origUid' => 't3_origuid',
         'default_sortby' => 'ORDER BY crdate',
@@ -48,16 +46,12 @@ $tca = [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'items' => $typo3Version >= 12
-                    ? [
-                        [
-                            'label' => '',
-                            'value' => 0,
-                        ],
-                    ]
-                    : [
-                        ['', 0],
+                'items' => [
+                    [
+                        'label' => '',
+                        'value' => 0,
                     ],
+                ],
                 'foreign_table' => 'tx_staffdirectory_domain_model_organization',
                 'foreign_table_where' => 'AND tx_staffdirectory_domain_model_organization.pid=###CURRENT_PID### AND tx_staffdirectory_domain_model_organization.sys_language_uid IN (0,-1) ORDER BY tx_staffdirectory_domain_model_organization.long_name',
                 'minitems' => 1,
@@ -69,7 +63,6 @@ $tca = [
             'label' => 'LLL:EXT:staffdirectory/Resources/Private/Language/locallang_db.xlf:tx_staffdirectory_domain_model_member.feuser_id',
             'config' => [
                 'type' => 'group',
-                'internal_type' => 'db',
                 'allowed' => 'fe_users',
                 'foreign_table' => 'fe_users', // MANDATORY for Extbase
                 'foreign_table_where' => 'AND fe_users.tx_extbase_type=\'tx_staffdirectory\'',
@@ -102,10 +95,3 @@ $tca = [
         ],
     ],
 ];
-
-if ($typo3Version >= 12) {
-    unset($tca['ctrl']['cruser_id']);
-    unset($tca['columns']['feuser_id']['config']['internal_type']);
-}
-
-return $tca;

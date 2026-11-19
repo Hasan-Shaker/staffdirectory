@@ -24,7 +24,6 @@ use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -95,21 +94,10 @@ class ParentOrganizations extends AbstractFormElement
 
         $resultArray['html'] = implode("\n", $html);
 
-        $typo3Version = (new Typo3Version())->getMajorVersion();
-        if ($typo3Version >= 12) {
-            $resultArray['requireJsModules'][] = JavaScriptModuleInstruction::create('@causal/staffdirectory/follow-link-checker.js')
-                ->invoke('init', [
-                    'selector' => '.tx-staffdirectory-organizations li a',
-                ]);
-        } else {
-            $resultArray['requireJsModules']['parentOrganizationLink'] = [
-                'TYPO3/CMS/Staffdirectory/FormEngine/Element/FollowLinkChecker' => 'function(FollowLinkChecker) {
-                    new FollowLinkChecker({
-                        selector: \'.tx-staffdirectory-organizations li a\'
-                    });
-                }',
-            ];
-        }
+        $resultArray['requireJsModules'][] = JavaScriptModuleInstruction::create('@causal/staffdirectory/follow-link-checker.js')
+            ->invoke('init', [
+                'selector' => '.tx-staffdirectory-organizations li a',
+            ]);
 
         return $resultArray;
     }
