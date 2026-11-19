@@ -29,7 +29,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class InlineRecordContainer extends \TYPO3\CMS\Backend\Form\Container\InlineRecordContainer
 {
-    public $inlineStackProcessor;
     /**
      * Entry method
      *

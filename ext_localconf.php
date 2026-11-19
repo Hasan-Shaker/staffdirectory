@@ -48,7 +48,11 @@ defined('TYPO3') || die ();
         ');
     }
 
-    if ($typo3Version >= 13) {
+    if ($typo3Version >= 14) {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][InlineRecordContainer::class] = [
+            'className' => \Causal\Staffdirectory\Xclass\V14\Backend\Form\Container\InlineRecordContainer::class,
+        ];
+    } elseif ($typo3Version === 13) {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][InlineRecordContainer::class] = [
             'className' => \Causal\Staffdirectory\Xclass\V13\Backend\Form\Container\InlineRecordContainer::class,
         ];

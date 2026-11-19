@@ -6,6 +6,7 @@ services:
 
   Causal\Staffdirectory\:
     resource: '../Classes/*'
+    exclude: '../Classes/Xclass/*'
 
   Causal\Staffdirectory\EventListener\CoreResourceStorageEventListener:
     tags:
