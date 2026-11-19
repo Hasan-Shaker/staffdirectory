@@ -2,17 +2,26 @@
 
 defined('TYPO3') || die();
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin([
+$pluginItem = [
     'LLL:EXT:staffdirectory/Resources/Private/Language/locallang_db.xlf:plugins.plugin.title',
     'staffdirectory_plugin',
     'staffdirectory-default',
-], 'CType', 'staffdirectory');
+];
+$pluginFlexForm = 'FILE:EXT:staffdirectory/Configuration/FlexForms/flexform_plugin_v12.xml';
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
-    '*',
-    'FILE:EXT:staffdirectory/Configuration/FlexForms/flexform_plugin_v12.xml',
-    'staffdirectory_plugin'
-);
+if ((new \TYPO3\CMS\Core\Information\Typo3Version())->getMajorVersion() >= 14) {
+    // As of TYPO3 v14, the data structure is passed directly to addPlugin()
+    // and addPiFlexFormValue() is deprecated
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin($pluginItem, $pluginFlexForm);
+} else {
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin($pluginItem, 'CType', 'staffdirectory');
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(
+        '*',
+        $pluginFlexForm,
+        'staffdirectory_plugin'
+    );
+}
+unset($pluginItem, $pluginFlexForm);
 
 $GLOBALS['TCA']['tt_content']['types']['staffdirectory_plugin']['showitem'] = '
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general,
