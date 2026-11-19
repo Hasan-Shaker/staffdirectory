@@ -20,6 +20,7 @@ namespace Causal\Staffdirectory\Preview;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class PluginPreviewRenderer extends AbstractFlexFormPreviewRenderer
@@ -80,7 +81,8 @@ class PluginPreviewRenderer extends AbstractFlexFormPreviewRenderer
             if (empty($row)) {
                 continue;
             }
-            $description = $iconFactory->getIconForRecord($table, $row, Icon::SIZE_SMALL)->render();
+            $size = enum_exists(IconSize::class) ? IconSize::SMALL : Icon::SIZE_SMALL;
+            $description = $iconFactory->getIconForRecord($table, $row, $size)->render();
             $description .= ' ' . BackendUtility::getRecordTitle($table, $row);
             $out[] = $description;
         }
@@ -100,7 +102,8 @@ class PluginPreviewRenderer extends AbstractFlexFormPreviewRenderer
         $out = [];
         foreach ($persons as $personUid) {
             $row = BackendUtility::getRecord($table, $personUid);
-            $description = $iconFactory->getIconForRecord($table, $row, Icon::SIZE_SMALL)->render();
+            $size = enum_exists(IconSize::class) ? IconSize::SMALL : Icon::SIZE_SMALL;
+            $description = $iconFactory->getIconForRecord($table, $row, $size)->render();
             $description .= ' ' . BackendUtility::getRecordTitle($table, $row);
             $out[] = $description;
         }

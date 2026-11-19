@@ -24,6 +24,7 @@ use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -63,7 +64,7 @@ class ParentOrganizations extends AbstractFormElement
         $count = 0;
         while (($row = $statement->fetchAssociative()) !== false) {
             $html[] = '<li>';
-            $html[] = $iconFactory->getIconForRecord($table, $row, Icon::SIZE_SMALL)->render();
+            $html[] = $iconFactory->getIconForRecord($table, $row, enum_exists(IconSize::class) ? IconSize::SMALL : Icon::SIZE_SMALL)->render();
 
             $name = BackendUtility::getRecordTitle($table, $row);
             $editUrl = (string)$uriBuilder->buildUriFromRoute('record_edit', [
