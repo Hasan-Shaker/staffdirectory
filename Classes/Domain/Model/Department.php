@@ -3,7 +3,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011-2025 Xavier Perseguers <xavier@causal.ch>
+ *  (c) 2011-2026 Xavier Perseguers <xavier@causal.ch>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -25,7 +25,7 @@
 
 namespace Causal\Staffdirectory\Domain\Model;
 
-use Causal\Staffdirectory\Domain\Repository\Factory;
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
 /**
  * Department.
@@ -35,13 +35,8 @@ use Causal\Staffdirectory\Domain\Repository\Factory;
  * @copyright   Causal Sàrl
  * @license     http://www.gnu.org/copyleft/gpl.html
  */
-class Department extends DeprecatedAbstractEntity implements \Stringable
+class Department extends AbstractEntity implements \Stringable
 {
-    /**
-     * @var Staff
-     */
-    protected $staff;
-
     /**
      * @var string
      */
@@ -53,31 +48,9 @@ class Department extends DeprecatedAbstractEntity implements \Stringable
     protected $description;
 
     /**
-     * @var DeprecatedMember[]
+     * @var Member[]
      */
     protected $members;
-
-    /**
-     * Default constructor.
-     */
-    public function __construct(int $uid)
-    {
-        parent::__construct($uid);
-    }
-
-    /**
-     * @return Staff
-     */
-    public function getStaff(): ?Staff
-    {
-        return $this->staff;
-    }
-
-    public function setStaff(Staff $staff): Department
-    {
-        $this->staff = $staff;
-        return $this;
-    }
 
     public function getName(): string
     {
@@ -102,19 +75,15 @@ class Department extends DeprecatedAbstractEntity implements \Stringable
     }
 
     /**
-     * @return DeprecatedMember[]
+     * @return Member[]
      */
     public function getMembers(): array
     {
-        if ($this->members === null) {
-            $departmentDirectoryRepository = Factory::getRepository('Department');
-            $departmentDirectoryRepository->loadMembers($this);
-        }
         return $this->members;
     }
 
     /**
-     * @param DeprecatedMember[] $members
+     * @param Member[] $members
      */
     public function setMembers(array $members): Department
     {
@@ -126,5 +95,4 @@ class Department extends DeprecatedAbstractEntity implements \Stringable
     {
         return $this->name;
     }
-
 }

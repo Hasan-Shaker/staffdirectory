@@ -1,6 +1,12 @@
 parameters:
-    phpVersion: 80300
+    phpVersion: 80100
     level: 6
     paths:
         - Classes/
     treatPhpDocTypesAsCertain: false
+    excludePaths:
+        analyseAndScan:
+            # Version-specific XCLASSes for TYPO3 v12/v13/v14 core classes,
+            # registered conditionally in ext_localconf.php. Not referenced
+            # from the analysed Classes/ tree outside Xclass/ itself.
+            - Classes/Xclass/

@@ -55,6 +55,7 @@ class MembershipViewHelper extends AbstractViewHelper
     }
 
     /**
+     * @return list<array{positionFunction:string, organization:Organization, links:array<int, mixed>}>
      * @throws Exception
      */
     protected function getMembership(Person $person): array
@@ -95,6 +96,7 @@ class MembershipViewHelper extends AbstractViewHelper
     }
 
     /**
+     * @return array<int, array{pageUid:int, title:string}>
      * @throws Exception
      */
     protected function findPagesWithPlugin(Person $person, ?Organization $organization): array

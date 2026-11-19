@@ -21,6 +21,10 @@ use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 
 class Person extends AbstractRecordFetcher
 {
+    /**
+     * @param array<string, mixed> $conf
+     * @return array<string, mixed>
+     */
     public function fetchAvailable(array $conf = []): array
     {
         $this->table = 'fe_users';

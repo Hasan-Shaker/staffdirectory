@@ -35,7 +35,11 @@ class PluginController extends ActionController
 {
     private const ORGANIZATION_RECURSION_LIMIT = 10;
 
-    public function __construct(protected OrganizationRepository $organizationRepository, protected MemberRepository $memberRepository, protected PersonRepository $personRepository) {}
+    public function __construct(
+        protected OrganizationRepository $organizationRepository,
+        protected MemberRepository $memberRepository,
+        protected PersonRepository $personRepository
+    ) {}
 
     public function dispatchAction(): ResponseInterface
     {
@@ -167,6 +171,9 @@ class PluginController extends ActionController
         );
     }
 
+    /**
+     * @return Organization[]
+     */
     protected function fetchSelectedOrganizations(): array
     {
         if (!empty($this->settings['organizations'])) {
@@ -185,6 +192,9 @@ class PluginController extends ActionController
         return $organizations;
     }
 
+    /**
+     * @return Person[]
+     */
     protected function fetchSelectedPersons(): array
     {
         if (!empty($this->settings['persons'])) {
@@ -203,6 +213,9 @@ class PluginController extends ActionController
         return $persons;
     }
 
+    /**
+     * @return array<string, Person>
+     */
     protected function fetchPersonsRecursive(?Organization $organization, int $recursion = 0): array
     {
         if (!$organization instanceof Organization) {
@@ -307,14 +320,18 @@ class PluginController extends ActionController
         $this->getTypoScriptFrontendController()->addCacheTags($cacheTags);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function getContentObjectData(): array
     {
         $typo3Version = (new Typo3Version())->getMajorVersion();
         if ($typo3Version >= 12) {
             return $this->request->getAttribute('currentContentObject')->data;
         }
-        return $this->configurationManager->getContentObject()->data;
-
+        // Removed in TYPO3 v12+, only reached on older versions
+        $contentObject = $this->configurationManager->getContentObject(); // @phpstan-ignore method.notFound
+        return $contentObject->data;
     }
 
     protected function getTypoScriptFrontendController(): TypoScriptFrontendController

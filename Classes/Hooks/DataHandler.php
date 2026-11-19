@@ -118,6 +118,8 @@ class DataHandler
 
     /**
      * Regenerates the slug.
+     *
+     * @param array<string, mixed> $fields
      */
     protected function regeneratePathSegment(string $table, int $uid, array $fields = []): string
     {

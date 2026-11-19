@@ -34,7 +34,7 @@ use TYPO3\CMS\Core\Utility\MathUtility;
  *
  * @category    XCLASS
  * @author      Xavier Perseguers <xavier@causal.ch>
- * @copyright   2025 Causal Sàrl
+ * @copyright   2025-2026 Causal Sàrl
  * @license     https://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  */
 class InlineRecordContainer extends AbstractContainer
@@ -132,7 +132,7 @@ class InlineRecordContainer extends AbstractContainer
             // If this record should be shown collapsed
             $classes[] = $data['isInlineChildExpanded'] ? 'panel-visible' : 'panel-collapsed';
         }
-        $hiddenFieldHtml = implode(LF, $resultArray['additionalHiddenFields'] ?? []);
+        $hiddenFieldHtml = implode("\n", $resultArray['additionalHiddenFields'] ?? []);
 
         if ($inlineConfig['renderFieldsOnly'] ?? false) {
             // Render "body" part only
@@ -280,7 +280,7 @@ class InlineRecordContainer extends AbstractContainer
             $markup[] = '        </div>';
             $markup[] = '    </div>';
             $markup[] = '</div>';
-            $resultArray['html'] = implode(LF, $markup);
+            $resultArray['html'] = implode("\n", $markup);
         }
 
         $childArray = $this->renderChild($childData);

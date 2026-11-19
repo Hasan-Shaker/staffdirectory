@@ -17,9 +17,13 @@ declare(strict_types=1);
 
 namespace Causal\Staffdirectory\Domain\Repository;
 
+use Causal\Staffdirectory\Domain\Model\Member;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
+/**
+ * @extends Repository<Member>
+ */
 class MemberRepository extends Repository
 {
     protected $defaultOrderings = [

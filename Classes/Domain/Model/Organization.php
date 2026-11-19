@@ -29,13 +29,14 @@ class Organization extends AbstractEntity
     protected string $shortName = '';
     protected string $description = '';
     protected string $children = '';
+    /** @var Organization[] */
     protected array $suborganizationsArray = [];
 
     /**
-     * @var ObjectStorage<Member>
+     * @var ObjectStorage<Member>|null
      * @Lazy
      */
-    protected ObjectStorage $members;
+    protected ?ObjectStorage $members;
 
     public function __construct()
     {
@@ -66,19 +67,22 @@ class Organization extends AbstractEntity
     }
 
     /**
-     * @return Member[]
+     * @return ObjectStorage<Member>
      */
     public function getMembers(): ObjectStorage
     {
         return $this->members;
     }
 
+    /**
+     * @return Organization[]
+     */
     public function getSuborganizations(): array
     {
         // This business logic is a trick to get the suborganizations in the same order as
         // they are defined in the TCA as Extbase doesn't seem to do it properly on its own.
 
-        if (empty($this->suborganizationsArray)
+        if ($this->suborganizationsArray === []
             && !empty($this->children)) {
 
             $organizationRepository = GeneralUtility::makeInstance(OrganizationRepository::class);

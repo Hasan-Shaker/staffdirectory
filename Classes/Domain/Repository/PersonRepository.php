@@ -17,6 +17,10 @@ declare(strict_types=1);
 
 namespace Causal\Staffdirectory\Domain\Repository;
 
+use Causal\Staffdirectory\Domain\Model\Person;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
+/**
+ * @extends Repository<Person>
+ */
 class PersonRepository extends Repository {}

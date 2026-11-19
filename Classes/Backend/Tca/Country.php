@@ -27,6 +27,7 @@ class Country
      * Returns the list of available countries.
      *
      * @param array<string, mixed> $conf
+     * @return array<string, mixed>
      */
     public function getAll(array $conf = []): array
     {

@@ -31,6 +31,7 @@ abstract class AbstractRecordFetcher
 
     /**
      * @param array<string, mixed> $conf
+     * @return array<string, mixed>
      */
     protected function fetchRecords(array $conf): array
     {

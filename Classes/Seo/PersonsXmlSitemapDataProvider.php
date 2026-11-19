@@ -5,7 +5,7 @@ declare(strict_types=1);
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2020-2025 Xavier Perseguers <xavier@causal.ch>
+ *  (c) 2020-2026 Xavier Perseguers <xavier@causal.ch>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -42,6 +42,7 @@ use TYPO3\CMS\Seo\XmlSitemap\Exception\MissingConfigurationException;
 class PersonsXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
 {
     /**
+     * @param array<string, mixed> $config
      * @throws MissingConfigurationException
      */
     public function __construct(ServerRequestInterface $request, string $key, array $config = [], ?ContentObjectRenderer $cObj = null)
@@ -76,7 +77,8 @@ class PersonsXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
                     $subPids[] = $pageRepository->getPageIdsRecursive($pids, $recursiveLevel);
                 } else {
                     foreach ($pids as $pid) {
-                        $list = $this->cObj->getTreeList($pid, $recursiveLevel);
+                        // Removed in TYPO3 v13, only reached on older versions
+                        $list = $this->cObj->getTreeList($pid, $recursiveLevel); // @phpstan-ignore method.notFound
                         if ($list) {
                             $subPids[] = GeneralUtility::intExplode(',', $list, true);
                         }
@@ -122,6 +124,10 @@ class PersonsXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
         }
     }
 
+    /**
+     * @param array<string, mixed> $data
+     * @return array<string, mixed>
+     */
     protected function defineUrl(array $data): array
     {
         $pageId = $this->config['url']['pageId'] ?? $GLOBALS['TSFE']->id;
@@ -149,6 +155,11 @@ class PersonsXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
         return $data;
     }
 
+    /**
+     * @param array<string, mixed> $additionalParams
+     * @param array<string, mixed> $data
+     * @return array<string, mixed>
+     */
     protected function getUrlFieldParameterMap(array $additionalParams, array $data): array
     {
         if (!empty($this->config['url']['fieldToParameterMap']) &&
@@ -161,6 +172,10 @@ class PersonsXmlSitemapDataProvider extends AbstractXmlSitemapDataProvider
         return $additionalParams;
     }
 
+    /**
+     * @param array<string, mixed> $additionalParams
+     * @return array<string, mixed>
+     */
     protected function getUrlAdditionalParams(array $additionalParams): array
     {
         if (!empty($this->config['url']['additionalGetParameters']) &&

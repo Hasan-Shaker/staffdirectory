@@ -17,6 +17,10 @@ declare(strict_types=1);
 
 namespace Causal\Staffdirectory\Domain\Repository;
 
+use Causal\Staffdirectory\Domain\Model\Organization;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
+/**
+ * @extends Repository<Organization>
+ */
 class OrganizationRepository extends Repository {}

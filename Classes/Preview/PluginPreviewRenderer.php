@@ -65,6 +65,10 @@ class PluginPreviewRenderer extends AbstractFlexFormPreviewRenderer
         }
     }
 
+    /**
+     * @param int[] $organizations
+     * @return string
+     */
     protected function getOrganizationNames(array $organizations): string
     {
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
@@ -84,6 +88,10 @@ class PluginPreviewRenderer extends AbstractFlexFormPreviewRenderer
         return implode('<br>', $out);
     }
 
+    /**
+     * @param int[] $persons
+     * @return string
+     */
     protected function getPersonNames(array $persons): string
     {
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);

@@ -30,6 +30,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ParentOrganizations extends AbstractFormElement
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function render(): array
     {
         $table = 'tx_staffdirectory_domain_model_organization';
@@ -90,7 +93,7 @@ class ParentOrganizations extends AbstractFormElement
         $html[] = '</ul>';
         $html[] = '</div>';
 
-        $resultArray['html'] = implode(LF, $html);
+        $resultArray['html'] = implode("\n", $html);
 
         $typo3Version = (new Typo3Version())->getMajorVersion();
         if ($typo3Version >= 12) {

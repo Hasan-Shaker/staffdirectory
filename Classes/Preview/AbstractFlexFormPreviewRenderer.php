@@ -19,6 +19,7 @@ namespace Causal\Staffdirectory\Preview;
 
 use TYPO3\CMS\Backend\Preview\StandardContentPreviewRenderer;
 use TYPO3\CMS\Backend\View\BackendLayout\Grid\GridColumnItem;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class AbstractFlexFormPreviewRenderer extends StandardContentPreviewRenderer
@@ -26,8 +27,12 @@ abstract class AbstractFlexFormPreviewRenderer extends StandardContentPreviewRen
     // Self-referential 'abstract' declaration
     public const PLUGIN_NAME = self::PLUGIN_NAME;
 
+    protected int $typo3Version;
+
+    /** @var array<string, mixed>|\ArrayAccess<string, mixed> */
     protected $flexFormData;
 
+    /** @var string */
     protected $labelPrefix;
 
     public function renderPageModulePreviewContent(GridColumnItem $item): string
@@ -39,19 +44,33 @@ abstract class AbstractFlexFormPreviewRenderer extends StandardContentPreviewRen
         $pluginTitle = $languageService->sL($this->labelPrefix . 'title');
         $out[] = '<strong>' . htmlspecialchars($pluginTitle) . '</strong>';
 
-        $record = $item->getRecord();
-        $this->flexFormData = GeneralUtility::xml2array($record['pi_flexform']);
-        if (is_array($this->flexFormData)) {
-            $out[] = '<table class="table table-sm mt-3 mb-0">';
+        $this->typo3Version = (new Typo3Version())->getMajorVersion();
+        if ($this->typo3Version >= 14) {
+            // v14 returns a RecordInterface, older versions an array
+            $record = $item->getRecord()->toArray(); // @phpstan-ignore method.nonObject
+            $this->flexFormData = $record['pi_flexform'];
+        } else {
+            $record = $item->getRecord();
+            $this->flexFormData = GeneralUtility::xml2array($record['pi_flexform']);
+        }
+
+        if (is_array($this->flexFormData) || $this->flexFormData instanceof \ArrayAccess) {
+            if ($this->typo3Version >= 14) {
+                $cssClasses = 'table table-sm table-vertical-top mt-3 mb-0';
+            } else {
+                $cssClasses = 'table table-sm mt-3 mb-0';
+            }
+            $out[] = '<table class="' . $cssClasses . '">';
             $this->renderFlexFormPreviewContent($record, $out);
             $out[] = '</table>';
         }
 
-        return implode(LF, $out);
+        return implode("\n", $out);
     }
 
     /**
-     * @param string[] $out
+     * @param array<string, mixed> $record
+     * @param list<string> $out
      */
     abstract protected function renderFlexFormPreviewContent(array $record, array &$out): void;
 
@@ -69,10 +88,29 @@ abstract class AbstractFlexFormPreviewRenderer extends StandardContentPreviewRen
 
     protected function getFieldFromFlexForm(string $key, string $sheet = 'sDEF'): ?string
     {
-        $flexForm = $this->flexFormData;
-        if (isset($flexForm['data'])) {
-            $flexForm = $flexForm['data'];
-            return $flexForm[$sheet]['lDEF'][$key]['vDEF'] ?? null;
+        if ($this->typo3Version >= 14) {
+            /** @var object{getSheets: callable} $flexFormData */
+            $flexFormData = $this->flexFormData;
+            $sheets = $flexFormData->getSheets();
+            $keyParts = explode('.', $key);
+            $value = null;
+            if (isset($sheets[$sheet])) {
+                $current = $sheets[$sheet];
+                foreach ($keyParts as $part) {
+                    if (isset($current[$part])) {
+                        $current = $current[$part];
+                    } else {
+                        return null;
+                    }
+                }
+                return is_array($current) ? implode(',', $current) : (string)$current;
+            }
+        } else {
+            $flexForm = $this->flexFormData;
+            if (isset($flexForm['data'])) {
+                $flexForm = $flexForm['data'];
+                return $flexForm[$sheet]['lDEF'][$key]['vDEF'] ?? null;
+            }
         }
 
         return null;
@@ -80,12 +118,14 @@ abstract class AbstractFlexFormPreviewRenderer extends StandardContentPreviewRen
 
     protected function addTableRow(string $label, string $content): string
     {
+        $cssClasses = $this->typo3Version >= 14 ? '' : 'align-top';
+
         $out[] = '<tr>';
-        $out[] = '<td class="align-top">' . htmlspecialchars($label) . '</td>';
-        $out[] = '<td class="align-top" style="font-weight: bold">' . $content . '</td>';
+        $out[] = '<td class="' . $cssClasses . '">' . htmlspecialchars($label) . '</td>';
+        $out[] = '<td class="' . $cssClasses . '" style="font-weight: bold">' . $content . '</td>';
         $out[] = '</tr>';
 
-        return implode(LF, $out);
+        return implode("\n", $out);
     }
 
     protected function describeBoolean(bool $value = true): string

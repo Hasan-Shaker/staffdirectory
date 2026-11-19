@@ -24,6 +24,10 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 
 class MemberSuggestReceiver extends SuggestWizardDefaultReceiver
 {
+    /**
+     * @param array<string, mixed> $row
+     * @param int $uid
+     */
     protected function checkRecordAccess($row, $uid): bool
     {
         $table = $this->mmForeignTable ?: $this->table;

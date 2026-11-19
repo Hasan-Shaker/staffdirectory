@@ -19,6 +19,10 @@ namespace Causal\Staffdirectory\Backend\Tca;
 
 class Organization extends AbstractRecordFetcher
 {
+    /**
+     * @param array<string, mixed> $conf
+     * @return array<string, mixed>
+     */
     public function fetchAvailable(array $conf = []): array
     {
         $this->table = 'tx_staffdirectory_domain_model_organization';

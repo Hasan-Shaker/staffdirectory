@@ -41,7 +41,7 @@ class Person extends AbstractEntity
     /**
      * @var ObjectStorage<FileReference>
      */
-    protected ObjectStorage $image;
+    protected ?ObjectStorage $image;
 
     public function __construct()
     {
@@ -126,6 +126,9 @@ class Person extends AbstractEntity
         return $this->country;
     }
 
+    /**
+     * @return ObjectStorage<FileReference>
+     */
     public function getImage(): ObjectStorage
     {
         return $this->image;
